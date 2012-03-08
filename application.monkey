@@ -24,7 +24,7 @@ Class Application Extends App
 	Field zoomFactorX#
 	Field zoomFactorY#
 
-	Field scenes$Map<Scene>
+	Field scenes:StringMap<Scene>
 	Field currentScene:Scene
 	Field nextScene:Scene
 	Field faders:List<Fader>
