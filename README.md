@@ -18,7 +18,7 @@ Will follow ;)
 
 At the moment, the payment module is just a wrapper for the great IAP-Module by Anawiki. So you need the [IAP-Module][] if you want to do iOS-In-App-Purchases. Support for Android will follow soon.
 
-## Licence
+## License
 
 This is free and unencumbered software released into the public domain.
 
