@@ -4,8 +4,8 @@ Import horizon.vector2d
 Import horizon.application
 
 Class Curve
-	Field points%Map<Vector2D>
-	Field controlling? = false
+	Field points:IntMap<Vector2D>
+	Field controlling? = False
 	Field controlPoint:Vector2D
 	Field pointCount%
 
@@ -31,7 +31,7 @@ Class Curve
 
 	Method DrawPoints:Void()
 		SetColor($AA, $22, $22)
-		For Local p := EachIn points.Values()
+		For Local p := Eachin points.Values()
 			DrawOval(p.x - 5, p.y - 5, 10, 10)
 		Next
 	End
@@ -46,7 +46,7 @@ Class Curve
 	Method DrawLines:Void()
 		SetColor($88, $88, $88)
 		Local lastPoint:Vector2D = Null
-		For Local p := EachIn points.Values()
+		For Local p := Eachin points.Values()
 			If (lastPoint)
 				DrawLine(lastPoint.x, lastPoint.y, p.x, p.y)
 			End
@@ -61,8 +61,8 @@ Class Curve
 
 		If (Not controlling)
 			If (MouseDown())
-				For Local p := EachIn points.Values()
-					If (mx > p.x - 15 AND my > p.y - 15 AND mx < p.x + 15 AND my < p.y + 15)
+				For Local p := Eachin points.Values()
+					If (mx > p.x - 15 And my > p.y - 15 And mx < p.x + 15 And my < p.y + 15)
 						controlling = True
 						controlPoint = p
 					End
@@ -119,7 +119,7 @@ Class Curve
 
 	Method ToString$()
 		Local s$
-		For Local p:Vector2D = EachIn points.Values()
+		For Local p:Vector2D = Eachin points.Values()
 			s += "curve.AddPoint(" + Int(p.x) + ", " + Int(p.y) + ")~n"
 		Next
 		Return s
