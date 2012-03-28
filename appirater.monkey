@@ -1,10 +1,9 @@
-
 Private
 
 #if TARGET="ios"
 Import "native/appirater.ios.cpp"
 
-Extern  '<-- Externs 'Public' by default
+Extern
 Class Appirater
     Function Launched:Void()="Appirater::Launched"
 End
