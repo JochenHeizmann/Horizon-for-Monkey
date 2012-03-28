@@ -6,6 +6,12 @@ Import monkey
 Import scene
 Import fader
 
+#LIVEDEBUGGER="false"
+
+#if LIVEDEBUGGER="true"
+Import livedebugger
+#end
+
 Class Application Extends App
 
 	Global application:Application
@@ -62,34 +68,48 @@ Class Application Extends App
 	End
 
 	Method OnUpdate%()
-		currentScene.OnUpdate()
-		If (state <> SCENE_ACTIVE)
-			Local changeState? = True
-			For Local f:Fader = Eachin faders
-				If (f.IsFading())
-					changeState = False
-				End
-				f.OnUpdate()
-			Next
-			If (changeState)
-				If (state = SCENE_ENTERING And loading = False)
-					SetState(SCENE_ACTIVE)
-				Else If (state = SCENE_LEAVING)
-					SetState(SCENE_ENTERING)
-					currentScene.OnLeave()
-					currentScene = nextScene
-					currentScene.OnEnter()
-					For Local f:Fader = Eachin faders
-						f.FadeIn()
-					Next
+#if TARGET="ios" or TARGET="android"
+		If (KeyDown(KEY_ESCAPE)) Then Error ""
+#end
+
+#if LIVEDEBUGGER="true"
+		If (Not LiveDebugger.GetInstance().active)
+#end
+			currentScene.OnUpdate()
+			If (state <> SCENE_ACTIVE)
+				Local changeState? = True
+				For Local f:Fader = Eachin faders
+					If (f.IsFading())
+						changeState = False
+					End
+					f.OnUpdate()
+				Next
+				If (changeState)
+					If (state = SCENE_ENTERING And loading = False)
+						SetState(SCENE_ACTIVE)
+					Else If (state = SCENE_LEAVING)
+						SetState(SCENE_ENTERING)
+						currentScene.OnLeave()
+						currentScene = nextScene
+						currentScene.OnEnter()
+						For Local f:Fader = Eachin faders
+							f.FadeIn()
+						Next
+					End
 				End
 			End
+#if LIVEDEBUGGER="true"
 		End
+#end
 
-		If (waiting and waitingImg)
+		If (waiting And waitingImg)
 			waitingFrame += WAITING_IMG_SPEED
 			If (waitingFrame > waitingImg.Frames()) Then waitingFrame -= waitingImg.Frames()
 		End
+
+#if LIVEDEBUGGER="true"
+		LiveDebugger.GetInstance().OnUpdate()
+#end
 		Return 0
 	End
 
@@ -113,6 +133,7 @@ Class Application Extends App
 	End
 
 	Method OnRender%()
+		PushMatrix
 		Scale(zoomFactorX, zoomFactorY)
 		loading = False
 		If (currentScene) Then currentScene.OnRender()
@@ -133,6 +154,11 @@ Class Application Extends App
 			End
 		End
 
+		PopMatrix()
+
+#if LIVEDEBUGGER="true"
+		LiveDebugger.GetInstance().OnRender()
+#end
 		Return 0
 	End
 

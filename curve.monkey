@@ -99,9 +99,9 @@ Class Curve
 		Local ox% = -900
 		Local oy% = 0
 		Local firstPoint? = True
-		While (pp < ((curve.pointCount-1) / 2) - 0.1)
-			pp += curve.segmentSize * 10
-			Local p:Vector2D = curve.GetPosition(pp)
+		While (pp < ((pointCount-1) / 2) - 0.1)
+			pp += segmentSize * 10
+			Local p:Vector2D = GetPosition(pp)
 			If (ox <> -900) Then DrawLine(ox, oy, p.x, p.y)
 			ox = p.x
 			oy = p.y

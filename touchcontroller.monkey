@@ -18,7 +18,6 @@ Class TouchController
 	Field startY%
 	Field dx%, dy%
 
-
 	Method Update:Void()
 		wasDown = isDown
 

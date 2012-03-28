@@ -25,4 +25,5 @@ public:
 		[openURLAlert showModal];
 		[openURLAlert release];
 	}
+
 };

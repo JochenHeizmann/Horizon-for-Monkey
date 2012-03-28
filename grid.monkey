@@ -17,7 +17,7 @@ Class Grid
 		Next
 	End
 
-	Method GetCount%[](val%)
+	Method GetCount%(val%)
 		Local c% = 0
 		For Local i% = 0 To boardSize-1
 			If (data[i] = val)
