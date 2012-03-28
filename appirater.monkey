@@ -9,8 +9,9 @@ Class Appirater
     Function Launched:Void()="Appirater::Launched"
 End
 #else
+Public
 Class Appirater
-    Function Launched:Void()="Appirater::Launched"
+    Function Launched:Void()
         Print "Appirater: App launched"
     End
 End

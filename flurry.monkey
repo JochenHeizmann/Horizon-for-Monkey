@@ -19,15 +19,15 @@ Class Flurry
     End
 
     Function LogEvent:Void(eventName$)
-        Print "Log: " + eventName$
+        Print "Log: " + eventName
     End
 
     Function LogEventTimed:Void(eventName$)
-        Print "Start Timed Event: " + eventName$
+        Print "Start Timed Event: " + eventName
     End
 
     Function EndTimedEvent:Void(eventName$)
-        Print "End Timed Event: " + eventName$
+        Print "End Timed Event: " + eventName
     End
 End
 #end
