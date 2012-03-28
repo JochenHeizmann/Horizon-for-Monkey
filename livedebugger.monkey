@@ -1,31 +1,11 @@
 Strict
 
-'TODO: Remove Evertyhing in RELEASE MODE
-
 Import reflection
 Import mojo
 Import horizon.scene
 Import horizon.application
 Import horizon.touchcontroller
 Import toddler.sprite
-#Rem
-
-LISTE OF OBJECTS
-------
-OBJEKT
-   - FELDER
-   --> INT -> DIREKT
-   --> FLOAT -> DIREKT
-   --> BOOL -> DIREKT
-   --> STRING -> DIREKT
-   --> UNBEKANNTES OBJEKT [LINK AS ROOT]
-   --> ARRAY OF INT/FLOAT... --> Neue Liste mit allen Ints geben
-   --> ARRAY OF OBJECT --> Index Liste zur Auswahl -> LINK AS ROOT
-   -->
-
-
-#End
-
 
 Class DebugEntry
 	Field name$

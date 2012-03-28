@@ -1,7 +1,7 @@
 
 #import "appirater/Appirater.h"
 
-class Appirater
+class AppiraterMonk
 {
 public:
     static void Launched()

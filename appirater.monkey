@@ -4,8 +4,8 @@ Private
 Import "native/appirater.ios.cpp"
 
 Extern
-Class Appirater
-    Function Launched:Void()="Appirater::Launched"
+Class Appirater="AppiraterMonk"
+    Function Launched:Void()="AppiraterMonk::Launched"
 End
 #else
 Public
