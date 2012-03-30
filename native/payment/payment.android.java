@@ -45,13 +45,13 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
 
     public MonkeyPurchaseObserver(Handler handler) {
         super(MonkeyGame.activity, handler);
-        bb_std_lang.print("Payment purchaseobserver started!");
+        // bb_std_lang.print("Payment purchaseobserver started!");
         initDatabase();
     }
 
     @Override
     public void onBillingSupported(boolean supported) {
-        bb_std_lang.print("onBilling Support!");
+        // bb_std_lang.print("onBilling Support!");
        restoreDatabase();
     }
 
@@ -63,22 +63,22 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
     @Override
     public void onRequestPurchaseResponse(RequestPurchase request,
             ResponseCode responseCode) {
-    	bb_std_lang.print("Payment onRequestPurchaseResponse");
-            bb_std_lang.print("Payment "  + request.mProductId + ": " + responseCode);
+    	// bb_std_lang.print("Payment onRequestPurchaseResponse");
+        // bb_std_lang.print("Payment "  + request.mProductId + ": " + responseCode);
         if (responseCode == ResponseCode.RESULT_OK) {
-          bb_std_lang.print("Payment purchase was successfully sent to server");
+          // bb_std_lang.print("Payment purchase was successfully sent to server");
 
 
         } else if (responseCode == ResponseCode.RESULT_USER_CANCELED) {
             SetInProgress(false);
 
-           bb_std_lang.print("Payment user canceled purchase");
+           // bb_std_lang.print("Payment user canceled purchase");
 
 
         } else {
             SetInProgress(false);
 
-           bb_std_lang.print("Payment purchase failed");
+           // bb_std_lang.print("Payment purchase failed");
 
 
         }
@@ -87,7 +87,7 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
     @Override
     public void onRestoreTransactionsResponse(RestoreTransactions request,
             ResponseCode responseCode) {
-    	bb_std_lang.print("Payment onRestoreTransactionsResponse");
+    	// bb_std_lang.print("Payment onRestoreTransactionsResponse");
         if (responseCode == ResponseCode.RESULT_OK) {
             if (Consts.DEBUG) {
                 //bb_std_lang.print(TAG, "completed RestoreTransactions request");
@@ -96,25 +96,25 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
             SharedPreferences.Editor edit = prefs.edit();
             edit.putBoolean(DB_INITIALIZED, true);
             edit.commit();
-            bb_std_lang.print("set db initialized to TRUE");
+            // bb_std_lang.print("set db initialized to TRUE");
         } else {
             if (Consts.DEBUG) {
                 SharedPreferences prefs = MonkeyGame.activity.getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
                 edit.putBoolean(DB_INITIALIZED, true);
                 edit.commit();
-                bb_std_lang.print("ResponseCode invalid");
+                // bb_std_lang.print("ResponseCode invalid");
             }
         }
         SetInProgress(false);
     }
 
     private void restoreDatabase() {
-        bb_std_lang.print("restoreDatabase");
+        // bb_std_lang.print("restoreDatabase");
         SharedPreferences prefs = MonkeyGame.activity.getPreferences(Context.MODE_PRIVATE);
         boolean initialized = prefs.getBoolean(DB_INITIALIZED, false);
         if (!initialized) {
-            bb_std_lang.print("restoreTransactions");
+            // bb_std_lang.print("restoreTransactions");
             mBillingService.restoreTransactions();
         }
 
@@ -123,7 +123,7 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
             while (c.moveToNext()) {
                 int quantity = c.getInt(1);
                 if (quantity > 0) {
-                    bb_std_lang.print("add item: " + c.getString(0));
+                    // bb_std_lang.print("add item: " + c.getString(0));
                     mOwnedItems.add(c.getString(0));
                 }
             }
@@ -139,8 +139,8 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
     @Override
     public void onPurchaseStateChange(PurchaseState purchaseState, String itemId,
             int quantity, long purchaseTime, String developerPayload) {
-    	bb_std_lang.print("Payment -> onPurchaseStateChange");
-            bb_std_lang.print("onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
+    	// bb_std_lang.print("Payment -> onPurchaseStateChange");
+           //  bb_std_lang.print("onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
 
         if (developerPayload == null) {
 
@@ -149,13 +149,13 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
         }
 
         if (purchaseState == PurchaseState.PURCHASED) {
-        	bb_std_lang.print("Payment bought!!!! " + itemId);
+        	// bb_std_lang.print("Payment bought!!!! " + itemId);
             SetInProgress(false);
-            bb_std_lang.print("add to owned items!!!! " + itemId);
+            //bb_std_lang.print("add to owned items!!!! " + itemId);
             mOwnedItems.add(itemId);
-            bb_std_lang.print("update db!!!! " + itemId);
+            //bb_std_lang.print("update db!!!! " + itemId);
             mPurchaseDatabase.updatePurchasedItem(itemId, 1);
-            bb_std_lang.print("done db!!!! " + itemId);
+            //bb_std_lang.print("done db!!!! " + itemId);
         }
     }
 }
@@ -183,7 +183,7 @@ class PaymentWrapper {
     public boolean Purchase(String productId)
     {
     	// android.test.purchased
-		bb_std_lang.print("Purchase");
+		// bb_std_lang.print("Purchase");
 		mPurchaseObserver.SetInProgress(true);
 		return mBillingService.requestPurchase(productId, null);
     }

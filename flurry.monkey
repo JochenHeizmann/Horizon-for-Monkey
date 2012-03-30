@@ -1,16 +1,26 @@
 
 Private
 
-#if TARGET="ios"
-Import "native/flurry.ios.cpp"
+#if TARGET="ios" Or TARGET="android"
+Import "native/flurry.${TARGET}.${LANG}"
 
 Extern  '<-- Externs 'Public' by default
+#if TARGET="ios"
+    Class Flurry
+        Function Init:Void(apiKey$)="Flurry::Init"
+        Function LogEvent:Void(eventName$)="Flurry::LogEvent"
+        Function LogEventTimed:Void(eventName$)="Flurry::LogEventTimed"
+        Function EndTimedEvent:Void(eventName$)="Flurry::EndTimedEvent"
+    End
+#elseif TARGET="android"
 Class Flurry
-    Function Init:Void(apiKey$)="Flurry::Init"
-    Function LogEvent:Void(eventName$)="Flurry::LogEvent"
-    Function LogEventTimed:Void(eventName$)="Flurry::LogEventTimed"
-    Function EndTimedEvent:Void(eventName$)="Flurry::EndTimedEvent"
-End
+        Function Init:Void(apiKey$)="Flurry.Init"
+        Function LogEvent:Void(eventName$)="Flurry.LogEvent"
+        Function LogEventTimed:Void(eventName$)="Flurry.LogEventTimed"
+        Function EndTimedEvent:Void(eventName$)="Flurry.EndTimedEvent"
+    End
+#end
+
 #else
 Public
 Class Flurry
