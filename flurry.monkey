@@ -4,7 +4,7 @@ Private
 #if TARGET="ios" Or TARGET="android"
 Import "native/flurry.${TARGET}.${LANG}"
 
-Extern  '<-- Externs 'Public' by default
+Extern
 #if TARGET="ios"
     Class Flurry
         Function Init:Void(apiKey$)="Flurry::Init"
