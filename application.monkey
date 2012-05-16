@@ -9,7 +9,7 @@ Import fader
 #LIVEDEBUGGER="false"
 
 #if LIVEDEBUGGER="true"
-Import livedebugger
+	Import livedebugger
 #end
 
 Class Application Extends App
@@ -19,6 +19,7 @@ Class Application Extends App
 	Const SCENE_ENTERING% = 0
 	Const SCENE_ACTIVE% = 1
 	Const SCENE_LEAVING% = 2
+
 
 	Const WAITING_IMG_SPEED# = 0.15
 
@@ -59,14 +60,17 @@ Class Application Extends App
 		height = h
 	End Method
 
-	Method VirtualMouseX%()
-		Return MouseX() / Float(zoomFactorX)
+	Method VirtualMouseX%(m%=0)
+		Return TouchX(m) / Float(zoomFactorX)
 	End
 
-	Method VirtualMouseY%()
-		Return MouseY() / Float(zoomFactorY)
+	Method VirtualMouseY%(m%=0)
+		Return TouchY(m) / Float(zoomFactorY)
 	End
 
+	Field leaveScene? = False
+	Field enterScene? = False
+	Field dontRenderFrame? = False
 	Method OnUpdate%()
 #if TARGET="ios" or TARGET="android"
 		If (KeyDown(KEY_ESCAPE)) Then Error ""
@@ -75,26 +79,35 @@ Class Application Extends App
 #if LIVEDEBUGGER="true"
 		If (Not LiveDebugger.GetInstance().active)
 #end
-			currentScene.OnUpdate()
-			If (state <> SCENE_ACTIVE)
-				Local changeState? = True
+			If (leaveScene)
+				currentScene.OnLeave()
+				leaveScene = False
+				enterScene = True
+				dontRenderFrame = True
+			Else If (enterScene)
+				SetState(SCENE_ENTERING)
+				currentScene = nextScene
+				currentScene.OnEnter()
 				For Local f:Fader = Eachin faders
-					If (f.IsFading())
-						changeState = False
-					End
-					f.OnUpdate()
+					f.FadeIn()
 				Next
-				If (changeState)
-					If (state = SCENE_ENTERING And loading = False)
-						SetState(SCENE_ACTIVE)
-					Else If (state = SCENE_LEAVING)
-						SetState(SCENE_ENTERING)
-						currentScene.OnLeave()
-						currentScene = nextScene
-						currentScene.OnEnter()
-						For Local f:Fader = Eachin faders
-							f.FadeIn()
-						Next
+				enterScene = False
+			Else
+				currentScene.OnUpdate()
+				If (state <> SCENE_ACTIVE)
+					Local changeState? = True
+					For Local f:Fader = Eachin faders
+						If (f.IsFading())
+							changeState = False
+						End
+						f.OnUpdate()
+					Next
+					If (changeState)
+						If (state = SCENE_ENTERING And loading = False)
+							SetState(SCENE_ACTIVE)
+						Else If (state = SCENE_LEAVING)
+							leaveScene = True
+						End
 					End
 				End
 			End
@@ -136,7 +149,11 @@ Class Application Extends App
 		PushMatrix
 		Scale(zoomFactorX, zoomFactorY)
 		loading = False
-		If (currentScene) Then currentScene.OnRender()
+		If (dontRenderFrame)
+			dontRenderFrame = False
+		Else If (currentScene)
+			currentScene.OnRender()
+		End If
 		If (state <> SCENE_ACTIVE)
 			For Local f:Fader = Eachin faders
 				f.OnRender()

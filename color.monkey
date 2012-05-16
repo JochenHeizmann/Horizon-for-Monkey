@@ -1,5 +1,7 @@
 Strict
 
+Import mojo
+
 Class Color
 	Field r%, g%, b%
 
