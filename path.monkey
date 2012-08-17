@@ -13,10 +13,10 @@ Class Path
         Local i:Int, j:Int, c:Bool
         j=npol-1
         For i=0 To npol-1
-            Local ypi:Float= Point(pol[i]).y
-            Local xpi:Float= Point(pol[i]).x
-            Local ypj:Float= Point(pol[j]).y
-            Local xpj:Float= Point(pol[j]).x
+            Local ypi:Float= Vector2D(pol[i]).y
+            Local xpi:Float= Vector2D(pol[i]).x
+            Local ypj:Float= Vector2D(pol[j]).y
+            Local xpj:Float= Vector2D(pol[j]).x
             If ((((ypi<=y) And (y<ypj)) Or ((ypj<=y) And (y<ypi))) And (x < (xpj - xpi) * (y-ypi) / (ypj - ypi) + xpi))
                 c = Not c
             End If
