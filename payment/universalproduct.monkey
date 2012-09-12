@@ -17,11 +17,9 @@ Class UniversalProduct Extends PaymentProduct
         Return androidId
     End
 
-    '#rem
     #if TARGET="html5"
         Method IsProductPurchased?()
             Return True
         End
     #end
-    '#end
 End

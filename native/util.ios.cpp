@@ -5,7 +5,8 @@ public:
 
 	void static NavigateToUrl(String url) {
 		NSString *stringUrl = url.ToNSString();
-		NSURL *nsUrl = [NSURL URLWithString:stringUrl];
+        NSString *escaped = [stringUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSURL *nsUrl = [NSURL URLWithString:escaped];        
 		[[UIApplication sharedApplication] openURL:nsUrl];
 	}
 
