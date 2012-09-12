@@ -8,14 +8,23 @@ Import mojo
 	Public
 #else
     Function LoadBinaryString$(file$)
-    	Return LoadString(file)
+        Print "Trying to load file " + file
+    	Local ret := LoadString(file)
+        Print "Loaded..."
+        Return ret
    	End
 #end
 
 Class Stream
+    Global floatChars := ["","0","1","2","3","4","5","6","7","8","9","-",".","e"] '4-bit
+
     Field littleEndian:Bool
     Field stream$
     Field pos%
+
+    Method New()
+        littleEndian = True
+    End
 
     Method New(file$)
         littleEndian = True
@@ -38,6 +47,17 @@ Class Stream
         End
     End
 
+    ' WARNING! Only Works with STRING FLOAT Representation
+    Method ReadFloat#()
+        Local result#
+        Local len% = ReadInt()
+        Print "L: " + len
+        Local val := ReadString(len)
+        Print "VAL: " + val
+        Return Float(val)
+    End   
+     
+
     Method ReadBool?()
         Local result:Bool
         result = Bool(stream[pos])
@@ -56,7 +76,6 @@ Class Stream
             If stream[p] = 13 or stream[p] = 10
                 result = stream[pos..p+1]
                 pos = p+1
-                Print result
                 Return result
             End
         Next
@@ -81,6 +100,10 @@ Class Stream
             pos+=strLen
         End
         Return result
+    End
+
+    Method WriteString(s$)
+        stream += s
     End
 
     Method WriteBool:String(b?)
