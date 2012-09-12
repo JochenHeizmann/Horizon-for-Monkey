@@ -128,6 +128,7 @@ Class LiveDebugger
 			If (Not TouchDown())
 				startDrag = False
 				selected = Null
+                InitObjectList(baseObject)
 			End
 		End
 	End

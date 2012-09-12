@@ -6,9 +6,9 @@ Import monkey
 Import scene
 Import fader
 
-#LIVEDEBUGGER="false"
+#LIVEDEBUGGER="true"
 
-#if LIVEDEBUGGER="true"
+#if LIVEDEBUGGER="true" and TARGET="html5"
 	Import livedebugger
 #end
 
@@ -76,7 +76,7 @@ Class Application Extends App
 		If (KeyDown(KEY_ESCAPE)) Then Error ""
 #end
 
-#if LIVEDEBUGGER="true"
+#if LIVEDEBUGGER="true" and TARGET="html5"
 		If (Not LiveDebugger.GetInstance().active)
 #end
 			If (leaveScene)
@@ -111,7 +111,7 @@ Class Application Extends App
 					End
 				End
 			End
-#if LIVEDEBUGGER="true"
+#if LIVEDEBUGGER="true" and TARGET="html5"
 		End
 #end
 
@@ -120,7 +120,7 @@ Class Application Extends App
 			If (waitingFrame > waitingImg.Frames()) Then waitingFrame -= waitingImg.Frames()
 		End
 
-#if LIVEDEBUGGER="true"
+#if LIVEDEBUGGER="true" and TARGET="html5"
 		LiveDebugger.GetInstance().OnUpdate()
 #end
 		Return 0
@@ -173,7 +173,7 @@ Class Application Extends App
 
 		PopMatrix()
 
-#if LIVEDEBUGGER="true"
+#if LIVEDEBUGGER="true" and TARGET="html5"
 		LiveDebugger.GetInstance().OnRender()
 #end
 		Return 0
