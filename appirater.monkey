@@ -11,7 +11,6 @@ End
 Public
 Class Appirater
     Function Launched:Void()
-        Print "Appirater: App launched"
     End
 End
 #end

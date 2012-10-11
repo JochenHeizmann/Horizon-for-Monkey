@@ -63,10 +63,9 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
     @Override
     public void onRequestPurchaseResponse(RequestPurchase request,
             ResponseCode responseCode) {
-    	// bb_std_lang.print("Payment onRequestPurchaseResponse");
-        // bb_std_lang.print("Payment "  + request.mProductId + ": " + responseCode);
+    	bb_std_lang.print("Payment "  + request.mProductId + ": " + responseCode);
         if (responseCode == ResponseCode.RESULT_OK) {
-          // bb_std_lang.print("Payment purchase was successfully sent to server");
+          bb_std_lang.print("Payment purchase was successfully sent to server");
 
 
         } else if (responseCode == ResponseCode.RESULT_USER_CANCELED) {
@@ -135,12 +134,28 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
         }
      }
 
+    public int productQuantity(String productId)
+    {
+        if (!mOwnedItems.contains(productId)) {
+            return 0;
+        }
+
+        return 1;
+    }
+    public boolean ConsumeProduct(String productId)
+    {
+        if (!mOwnedItems.contains(productId)) {
+            return false;
+        }
+        mPurchaseDatabase.updatePurchasedItem(productId, 0);   
+        return mOwnedItems.remove(productId);
+    }
 
     @Override
     public void onPurchaseStateChange(PurchaseState purchaseState, String itemId,
             int quantity, long purchaseTime, String developerPayload) {
     	// bb_std_lang.print("Payment -> onPurchaseStateChange");
-           //  bb_std_lang.print("onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
+        bb_std_lang.print("onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
 
         if (developerPayload == null) {
 
@@ -149,7 +164,7 @@ class MonkeyPurchaseObserver extends PurchaseObserver {
         }
 
         if (purchaseState == PurchaseState.PURCHASED) {
-        	// bb_std_lang.print("Payment bought!!!! " + itemId);
+            bb_std_lang.print("Payment bought: " + itemId + " / " + quantity);
             SetInProgress(false);
             //bb_std_lang.print("add to owned items!!!! " + itemId);
             mOwnedItems.add(itemId);
@@ -202,5 +217,15 @@ class PaymentWrapper {
     {
         mPurchaseObserver.destroy();
         mBillingService.unbind();
+    }
+
+    public int ProductQuantity(String productId)
+    {
+        return mPurchaseObserver.productQuantity(productId);
+    }
+
+    public boolean ConsumeProduct(String productId)
+    {
+        return mPurchaseObserver.ConsumeProduct(productId);        
     }
 }

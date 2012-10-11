@@ -13,3 +13,8 @@ util.GetTimestamp = function() {
 util.Alert = function(title, message, buttonCaption) {
 	alert(message);
 }
+
+util.IsTabletDevice = function() {
+    return false;
+}
+

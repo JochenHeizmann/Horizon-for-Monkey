@@ -121,7 +121,6 @@ Class ParticleFX
     End
     
     Method LoadFX (Filename:String)
-        Print "LoadFX " + Filename
         Local f:Stream = New Stream(Filename)
         If (f)
             For Local i:Int = 0 To 9

@@ -10,6 +10,8 @@ Extern
 		Method Purchase:Void(productId$)
 		Method IsBought?(id$)
 		Method IsPurchaseInProgress?()
+        Method ProductQuantity%(productId$)
+        Method ConsumeProduct?(productId$)
 	End
 
 	Class Security="com.payment.Security"

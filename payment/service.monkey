@@ -45,6 +45,8 @@ Class PaymentService
 		Return (isPurchaseInProgress() > 0)
 #elseif TARGET="android"
 		Return androidPayment.IsPurchaseInProgress()
+#else
+        Return False
 #end
 	End
 End

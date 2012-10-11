@@ -25,19 +25,15 @@ Class Flurry
 Public
 Class Flurry
     Function Init:Void(apiKey$)
-        Print "Flurry Init"
     End
 
     Function LogEvent:Void(eventName$)
-        Print "Log: " + eventName
     End
 
     Function LogEventTimed:Void(eventName$)
-        Print "Start Timed Event: " + eventName
     End
 
     Function EndTimedEvent:Void(eventName$)
-        Print "End Timed Event: " + eventName
     End
 End
 #end

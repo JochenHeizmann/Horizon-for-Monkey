@@ -14,6 +14,9 @@ Class UniversalProduct Extends PaymentProduct
     End
 
     Method GetAndroidId$()
+        #if CONFIG="debug"
+            Return "android.test.purchased"
+        #end
         Return androidId
     End
 

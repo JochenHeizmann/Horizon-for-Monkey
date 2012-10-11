@@ -8,9 +8,7 @@ Import mojo
 	Public
 #else
     Function LoadBinaryString$(file$)
-        Print "Trying to load file " + file
     	Local ret := LoadString(file)
-        Print "Loaded..."
         Return ret
    	End
 #end
@@ -51,9 +49,7 @@ Class Stream
     Method ReadFloat#()
         Local result#
         Local len% = ReadInt()
-        Print "L: " + len
         Local val := ReadString(len)
-        Print "VAL: " + val
         Return Float(val)
     End   
      

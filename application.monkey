@@ -2,7 +2,7 @@ Strict
 
 Import mojo
 Import monkey
-
+Import horizon.vector2d
 Import scene
 Import fader
 
@@ -31,6 +31,12 @@ Class Application Extends App
 	Field zoomFactorX#
 	Field zoomFactorY#
 
+    Field minZoomFactorX#
+    Field minZoomFactorY#
+
+    Field translateX#
+    Field translateY#
+
 	Field scenes:StringMap<Scene>
 	Field currentScene:Scene
 	Field nextScene:Scene
@@ -46,6 +52,10 @@ Class Application Extends App
 		SetUpdateRate(60)
 		zoomFactorX = Float(DeviceWidth()) / Float(width)
 		zoomFactorY = Float(DeviceHeight()) / Float(height)
+
+        minZoomFactorX = zoomFactorX
+        minZoomFactorY = zoomFactorY
+
 		waiting = False
 		Return 0
 	End
@@ -61,16 +71,17 @@ Class Application Extends App
 	End Method
 
 	Method VirtualMouseX%(m%=0)
-		Return TouchX(m) / Float(zoomFactorX)
+		Return (TouchX(m) / Float(zoomFactorX)) - translateX 
 	End
 
 	Method VirtualMouseY%(m%=0)
-		Return TouchY(m) / Float(zoomFactorY)
+		Return (TouchY(m) / Float(zoomFactorY)) - translateY
 	End
 
 	Field leaveScene? = False
 	Field enterScene? = False
 	Field dontRenderFrame? = False
+
 	Method OnUpdate%()
 #if TARGET="ios" or TARGET="android"
 		If (KeyDown(KEY_ESCAPE)) Then Error ""
@@ -148,6 +159,7 @@ Class Application Extends App
 	Method OnRender%()
 		PushMatrix
 		Scale(zoomFactorX, zoomFactorY)
+        Translate(translateX, translateY)
 		loading = False
 		If (dontRenderFrame)
 			dontRenderFrame = False

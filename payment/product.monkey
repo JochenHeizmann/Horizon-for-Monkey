@@ -25,6 +25,7 @@ Class PaymentProduct Abstract
 		startBuy = True
 		buyProduct(GetAppleId())
         #if TARGET="android"
+            Print "Start purchase..."
 		    service.androidPayment.Purchase(GetAndroidId())
         #end
     End
@@ -37,6 +38,16 @@ Class PaymentProduct Abstract
                     If data[0] = GetAppleId() Then localizedName = data[1] ; price = data[2]
                 Next
             End
+
+            ' dirty utf8 hack
+            For Local i% = 0 To localizedName.Length() - 1
+                If localizedName[i] = -61 Then localizedName = localizedName[0..i] + "ü" + localizedName[i+1..]
+            Next
+
+            For Local i% = 0 To price.Length() - 1
+                If price[i] = -96 Then price = price[0..i] + "€" + price[i+1..]
+                If price[i] = -62 Then price = price[0..i] + " " + price[i+1..]
+            Next            
         #end
     End
 
@@ -54,6 +65,8 @@ Class PaymentProduct Abstract
     Method IsConsumable?()
         #if TARGET="ios"
             Return canConsumeProduct(GetAppleId())
+        #elseif TARGET="android"
+            Return service.androidPayment.ProductQuantity(GetAndroidId()) > 0
         #end
         Return False
     End
@@ -61,6 +74,8 @@ Class PaymentProduct Abstract
     Method Consume:Bool(quantity% = 1)
         #if TARGET="ios"
             Return consumeProduct(GetAppleId(), quantity)
+        #elseif TARGET="android"
+            Return service.androidPayment.ConsumeProduct(GetAndroidId())
         #end
         Return False
     End
@@ -68,6 +83,8 @@ Class PaymentProduct Abstract
     Method GetQuantity%()
         #if TARGET="ios"
             Return productQuantity(GetAppleId())
+        #elseif TARGET="android"
+            Return service.androidPayment.ProductQuantity(GetAndroidId())
         #end
         Return 0
     End
@@ -88,8 +105,6 @@ Class PaymentProduct Abstract
 	Method UpdatePurchasedState:Void()
 #if TARGET="ios"
 		purchased = (isProductPurchased(GetAppleId()) > 0)
-		Print "Update purchased state for " + GetAppleId()
-		If (purchased) Then Print "IS TRUE"
 #elseif TARGET="android"
 		purchased = service.androidPayment.IsBought(GetAndroidId())
 #end

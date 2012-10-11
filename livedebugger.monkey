@@ -154,7 +154,6 @@ Class LiveDebugger
 			For Local cField := Eachin cInfo.GetFields(True)
 				Select cField.Type.Name()
 					Case "monkey.boxes.ArrayObject<toddler.sprite.Sprite>"
-						Print cField.Type.Name()
 						Local v := ArrayBoxer<Sprite>.Unbox(cField.GetValue(baseObject))
 						Local c%
 						If (v)

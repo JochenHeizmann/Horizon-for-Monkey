@@ -27,4 +27,9 @@ public:
 		[openURLAlert release];
 	}
 
+    bool static IsTabletDevice()
+    {
+        return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+    }
+
 };
