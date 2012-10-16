@@ -134,6 +134,9 @@ Class Application Extends App
 #if LIVEDEBUGGER="true" and TARGET="html5"
 		LiveDebugger.GetInstance().OnUpdate()
 #end
+    
+        UpdateAsyncEvents()
+
 		Return 0
 	End
 

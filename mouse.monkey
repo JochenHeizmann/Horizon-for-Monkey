@@ -11,13 +11,12 @@ Private
     		Function Hide:Void()="mouse.Hide"
     	End
     Public
-#else
+#Else
+    Public
     Class Mouse
         Function Show:Void()
-            ShowMouse()
         End
         Function Hide:Void()
-            HideMouse()
         End
     End
-End
+#End
