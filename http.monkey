@@ -1,7 +1,3 @@
-#If TARGET<>"glfw" And TARGET<>"android" And TARGET<>"ios"
-    #Error "c++ or java Mojo target required"
-#End
-
 Import mojo
 Import brl.asynctcpstream
 
@@ -14,7 +10,6 @@ Interface HTTPListener
 End
 
 Class HTTPGetter Implements IOnConnectComplete, IOnReadComplete, IOnWriteComplete
-
     Field host$
     Field port%    
     Field listener:HTTPListener
@@ -27,6 +22,8 @@ Class HTTPGetter Implements IOnConnectComplete, IOnReadComplete, IOnWriteComplet
     Field page$ = ""
     Field text$ = ""
     Field dataflag? = False
+
+    FIeld fileNotFound?
     
     Method GetPage:Void(host$, page$, port%, listener:HTTPListener)
         Self.host = host
@@ -37,6 +34,7 @@ Class HTTPGetter Implements IOnConnectComplete, IOnReadComplete, IOnWriteComplet
         Self.dataflag = False ' marker for start of web page data
         Self.stream = New AsyncTcpStream
         Self.stream.Connect(host, port, Self)        
+        fileNotFound = False
     End
     
     Method Update?()
@@ -47,7 +45,7 @@ Class HTTPGetter Implements IOnConnectComplete, IOnReadComplete, IOnWriteComplet
     Private    
     
     Method Finish:Void()
-        listener.OnHTTPPageComplete(text)
+        If (text <> "") THen listener.OnHTTPPageComplete(text)
         strqueue.Clear
         stream.Close
         stream=Null
@@ -105,10 +103,13 @@ Class HTTPGetter Implements IOnConnectComplete, IOnReadComplete, IOnWriteComplet
                 text = text + line + "~n"
             Else
                 ' we at the data marker for data?  (i.e. first blank line)
+                If line.Contains("404 Not Found") fileNotFound = True
                 If line = "~r" Then
                     dataflag = True  ' from here on in comes data !
                 End
             End
         Next
+
+        If fileNotFound Then text = ""
     End
 End

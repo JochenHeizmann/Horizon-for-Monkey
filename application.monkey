@@ -15,6 +15,7 @@ Import fader
 Class Application Extends App
 
 	Global application:Application
+    Global updateRate% = 60
 
 	Const SCENE_ENTERING% = 0
 	Const SCENE_ACTIVE% = 1
@@ -49,7 +50,7 @@ Class Application Extends App
 	Field waitingFrame#
 
 	Method OnCreate%()
-		SetUpdateRate(60)
+		SetUpdateRate(updateRate)
 		zoomFactorX = Float(DeviceWidth()) / Float(width)
 		zoomFactorY = Float(DeviceHeight()) / Float(height)
 
