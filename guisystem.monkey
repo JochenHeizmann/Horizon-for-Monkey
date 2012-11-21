@@ -1,8 +1,8 @@
 Import horizon.inputcontrollermouse
 Import horizon.guibase
 Import mojo
-Import horizon.blitzmaxfunctions
-
+'Import horizon.blitzmaxfunctions
+'
 Class GuiSystem
     Global topElement : GuiBase
     Global selectedElement : GuiBase
@@ -25,14 +25,14 @@ Class GuiSystem
                 If (darkenBG And w = modalElement)
                     SetAlpha(0.7)
                     SetColor(0,0,0)
-                    DrawRect 0,0,VirtualResolutionWidth(), VirtualResolutionHeight()
+                    DrawRect 0,0,Application.GetInstance().width, Application.GetInstance().height
                     SetColor(255,255,255)
                     SetAlpha(1)
                     w.Render()
                 Else
                     w.Render()
-                End If
-            End If
+                End
+            End
         Next
     End Function
 
@@ -62,7 +62,7 @@ Class GuiSystem
         For Local w : GuiBase = EachIn widgets
             If w.visible And w.isModal
                 m = w
-            End If
+            End
         Next
         Return m
     End Function
@@ -90,11 +90,11 @@ Class GuiSystem
         If (topElement <> oldTopElement)
             If (topElement) Then topElement.OnMouseOver()
             If (oldTopElement) Then oldTopElement.OnMouseOut()
-        End If
+        End
 
         If (mouse.IsMouseHit(mouse.BUTTON_LEFT))
             activeElement = Null
-        End If
+        End
 
         If (topElement)
             If (mouse.IsMouseHit(mouse.BUTTON_LEFT))
@@ -102,22 +102,22 @@ Class GuiSystem
                 selectedElement = topElement
                 activeElement = topElement
                 activeElement.OnActivate()
-            End If
+            End
 
             If (mouse.IsMouseDown(mouse.BUTTON_LEFT))
                 topElement.OnMouseDown()
-            End If
+            End
 
             If (mouse.GetDX() <> 0 Or mouse.GetDY() <> 0)
                 topElement.OnMouseMove(mouse.GetDX(), mouse.GetDY())
-            End If
-        End If
+            End
+        End
 
         If (selectedElement And mouse.IsMouseUp(mouse.BUTTON_LEFT))
             selectedElement.OnMouseUp()
             If (topElement = selectedElement) Then selectedElement.OnMouseClick()
             selectedElement = Null
-        End If
+        End
 
         If (activeElement And Not activeElement.visible) Then activeElement = Null
     End 

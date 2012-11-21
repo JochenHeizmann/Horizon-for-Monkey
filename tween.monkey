@@ -13,9 +13,9 @@ Class Tween
 	End
 
 	Method Update()
+        If (steps = 0) Then val = p2 ; Return
 		val = stp / steps
-		val = ((val) * (val) * (3 - 2 * (val)))
-		val = (p2 * val) + (p1 * (1 - val))
+        val = (p2 * val) + (p1 * (1 - val))
 		stp += 1
 		If (stp > steps) stp = steps
 	End

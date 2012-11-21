@@ -44,8 +44,8 @@ Class GuiWidget Extends GuiBase
         id = idCounter
         visible = True
         childs = New List<GuiBase>
-        rect = Rect.Create(0, 0, 100, 100)
-        color = Color.Create(255, 255, 255)
+        rect = New Rect(0, 0, 100, 100)
+        color = New Color(255, 255, 255)
         GuiSystem.widgets.AddLast(Self)
     End Method
 
@@ -106,7 +106,7 @@ Class GuiWidget Extends GuiBase
 
     Method Update()
         clicked = False        
-        #if TARGET="flash"
+        #if TARGET="flash" or TARGET="html5"
         If (Not TouchDown(1))
             If GuiSystem.topElement <> Self Then widgetState = NOTHING Else widgetState = HOVER
         End If

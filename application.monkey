@@ -21,7 +21,6 @@ Class Application Extends App
 	Const SCENE_ACTIVE% = 1
 	Const SCENE_LEAVING% = 2
 
-
 	Const WAITING_IMG_SPEED# = 0.15
 
 	Field width# = 480
