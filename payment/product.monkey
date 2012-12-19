@@ -9,6 +9,8 @@ Class PaymentProduct Abstract
     Field price$
     Field localizedName$
 
+    Field setPurchased? = False
+
 	Method New()
 		purchased = False
 		startBuy = False
@@ -89,8 +91,8 @@ Class PaymentProduct Abstract
         Return 0
     End
 
-
 	Method IsProductPurchased?()
+        If (setPurchased) Then Return True
 #if TARGET="ios"
 		If (purchased) Then Return True
 		If (startBuy And Not IsPurchaseInProgress())

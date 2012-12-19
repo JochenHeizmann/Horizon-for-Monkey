@@ -9,7 +9,13 @@ class MultiMusic {
         StopMusic(channel);
         music[channel] = MonkeyData.openMedia( path );
 
-        if (music == null) return -1;
+        if (music[channel] == null) {
+            System.out.println("Couldn't load: " + path);
+            return -1;
+        }
+
+        System.out.println("Loaded: " + path);
+
         return 0;
     }
 
@@ -39,12 +45,19 @@ class MultiMusic {
     }
 
     int PlayMusic( int channel,int flags ){
-        if (channel > 15) return -1;
-        if( music[channel]==null ) return -1;
+        if (channel > 15) {
+            System.out.println("Invalid Channel: " + channel);
+            return -1;
+        }
+        if( music[channel]==null ) {
+            System.out.println("Music not loaded on channel: " + channel);
+            return -1;
+        }
         music[channel].setLooping( (flags&1)!=0 );
         music[channel].setVolume( 1,1 );
         music[channel].start();
-        state[channel] = 1;
+        state[channel] = 1;  
+        System.out.println("Play Music at channel " + channel);      
         return 0;
     }
 

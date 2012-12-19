@@ -3,17 +3,20 @@ Import product
 Import horizon.payment
 
 Class PaymentService
+
 #if TARGET="android"
 	Global androidPayment:PaymentWrapper
 #end
 	Field products:List<PaymentProduct> = New List<PaymentProduct>
 	Field bundleId$  'bundle id (apple)
 	Field publicKey$ 'public key (android)
+    Field serviceStarted? = False
 
 	Method StartService:Void()
 #if TARGET="android"
 		androidPayment = New PaymentWrapper()
 		androidPayment.Init()
+        serviceStarted = True
 #end
 
 		Local prodIds:List<String> = New List<String>
@@ -36,8 +39,10 @@ Class PaymentService
 	End
 
 	Method AddProduct:Void(p:PaymentProduct)
-		p.SetService(Self)
-		products.AddLast(p)
+        If (Not serviceStarted)
+    		p.SetService(Self)
+	    	products.AddLast(p)
+        End
 	End
 
 	Method IsPurchaseInProgress?()

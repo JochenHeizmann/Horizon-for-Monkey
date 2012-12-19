@@ -21,7 +21,7 @@ Class Application Extends App
 	Const SCENE_ACTIVE% = 1
 	Const SCENE_LEAVING% = 2
 
-	Const WAITING_IMG_SPEED# = 0.15
+	Global WAITING_IMG_SPEED# = 0.15
 
 	Field width# = 480
 	Field height# = 320
@@ -81,10 +81,11 @@ Class Application Extends App
 	Field leaveScene? = False
 	Field enterScene? = False
 	Field dontRenderFrame? = False
+    Global autoEscape? = True
 
 	Method OnUpdate%()
 #if TARGET="ios" or TARGET="android"
-		If (KeyDown(KEY_ESCAPE)) Then Error ""
+		If (autoEscape And KeyDown(KEY_ESCAPE)) Then Error ""
 #end
 
 #if LIVEDEBUGGER="true" and TARGET="html5"
@@ -146,6 +147,7 @@ Class Application Extends App
 		End
 		SetState(SCENE_LEAVING)
 		nextScene = scenes.Get(sceneName)
+        If (Not nextScene) Then Error "Scene " + sceneName + " not found!"
 		For Local f:Fader = Eachin faders
 			f.FadeOut()
 		Next

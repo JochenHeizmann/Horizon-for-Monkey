@@ -18,6 +18,7 @@ Class Stream
 
     Field littleEndian:Bool
     Field stream$
+    Field serializedStream$
     Field pos%
 
     Method New()
@@ -100,10 +101,12 @@ Class Stream
 
     Method WriteString(s$)
         stream += s
+        serializedStream += "S:" + s + ";"
     End
 
     Method WriteBool:String(b?)
         stream += String.FromChar(b)
+        serializedStream += "B:" + Int(b) + ";"
     End
 
     Method WriteInt:String(i%)
@@ -112,6 +115,7 @@ Class Stream
         Else
             stream += IntToString(i)
         End
+        serializedStream += "I:" + i + ";"
     End
 
     Method Seek:Void(p%)

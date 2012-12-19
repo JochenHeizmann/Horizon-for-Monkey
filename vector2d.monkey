@@ -43,7 +43,7 @@ Class Vector2D
 	End
 
 	Function Distance#(v1:Vector2D, v2:Vector2D)
-		Return Sqrt(Abs(v2.x - v1.x)) + Sqrt(Abs(v2.y - v1.y))
+        Return Sqrt(Pow(v2.x - x, 2.0) + Pow(v2.y - y, 2.0))
 	End
 
 	Function Equal?(v1:Vector2D, v2:Vector2D)
