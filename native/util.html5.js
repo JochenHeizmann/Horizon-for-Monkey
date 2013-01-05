@@ -18,3 +18,6 @@ util.IsTabletDevice = function() {
     return false;
 }
 
+util.GetHostname = function() {
+    return window.location.hostname;    
+}

@@ -9,4 +9,9 @@ public:
 	int static GetTimestamp() {
 		return std::time(0);
 	}
+
+    bool static IsTabletDevice()
+    {
+        return true;
+    }
 };

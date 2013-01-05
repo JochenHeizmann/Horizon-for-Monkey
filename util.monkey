@@ -23,6 +23,7 @@ Extern
 			Function GetTimestamp%()="util.GetTimestamp"
             Function Alert:Void(title$, message$, buttoncaption$)="util.Alert"
             Function IsTabletDevice:Bool()="util.IsTabletDevice"
+            Function GetHostname$()="util.GetHostname"
 		#end
 	End
 Public
