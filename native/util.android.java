@@ -2,18 +2,18 @@ import android.net.Uri;
 import java.io.*;
 
 class util {
-	static void NavigateToUrl(String url) {
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
-		MonkeyGame.activity.startActivity(i);
-	}
-	
-	static int GetTimestamp() {
-		return 0;
-	}
-	static boolean IsTabletDevice() {
-		return false;
-	}
+    static void NavigateToUrl(String url) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        MonkeyGame.activity.startActivity(i);
+    }
+
+    static int GetTimestamp() {
+        return 0;
+    }
+    static boolean IsTabletDevice() {
+        return false;
+    }
 
     static void SaveInternalFile(String fileName, String data)
     {
@@ -48,6 +48,16 @@ class util {
             e.printStackTrace();
         }
 
+        return "";
+    }
+
+    static String GetHostname() {
+        try {
+            String hostname = new String(java.net.InetAddress.getLocalHost().getHostName());
+            return hostname;
+        } catch (UnknownHostException e){
+            e.printStackTrace();
+        }
         return "";
     }
 }
